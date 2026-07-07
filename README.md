@@ -131,3 +131,42 @@ app/src/main/java/com/example/productexplorer/
 
 L'écran contient bien les quatre éléments demandés : un titre de catalogue, une ligne horizontale
 de catégories, une liste verticale de produits, et une carte réutilisable pour chaque produit.
+
+---
+
+## TP7 – Personnalisation graphique (Material Design 3 et thème)
+
+Personnalisation graphique de Product Explorer avec Material Design 3 : `ColorScheme`,
+`Typography` et `Shapes` sont désormais centralisés dans le thème (`ProductExplorerTheme`), avec
+une palette claire et une palette sombre. Aucun nouvel écran n'est ajouté : ce sont les composants
+déjà créés (titre du catalogue, `ProductListItem`, `CategoryChip`) qui héritent de ces décisions
+visuelles via `MaterialTheme.colorScheme` / `.typography` / `.shapes`, sans être redessinés un par
+un.
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+├── ui/theme/
+│   ├── Theme.kt                # LightColorScheme, DarkColorScheme, ProductShapes
+│   └── Type.kt                 # ProductTypography
+└── MainActivity.kt
+    ├── ProductCatalogScreen    # fond MaterialTheme.colorScheme.background, titre en primary
+    ├── ProductListItem         # Card : forme, couleur de conteneur et élévation du thème
+    └── CategoryChip            # Surface : couleur et forme du thème
+```
+
+### Previews
+
+`ProductCatalogScreenLightPreview` et `ProductCatalogScreenDarkPreview` affichent le même écran,
+seul le thème change, pour vérifier la lisibilité dans les deux modes.
+
+### Aperçu
+
+<p align="center">
+  <img src="capture/CatalogueLight.png" alt="Catalogue de produits, thème clair" width="300">
+  <img src="capture/CatalogueDark.png" alt="Catalogue de produits, thème sombre" width="300">
+</p>
+
+Le même écran dans les deux thèmes : les couleurs, la typographie et les formes s'adaptent grâce
+au thème, sans modification des composants.
