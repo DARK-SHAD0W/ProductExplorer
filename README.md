@@ -86,12 +86,48 @@ app/src/main/java/com/example/productexplorer/
 
 ### Aperçu
 
-<div align="center">
-
-![Écran d'accueil Product Explorer](capture/SearchProduits.png)
-
-</div>
+<p align="center">
+  <img src="capture/SearchProduits.png" alt="Écran d'accueil Product Explorer" width="300">
+</p>
 
 L'écran contient bien les six éléments demandés : en-tête, zone de recherche, produit mis en avant,
 catégories, section « Offre du jour », et un bouton vers le produit mis en avant (sans navigation
 réelle pour l'instant).
+
+---
+
+## TP6 – Catalogue local de produits (Listes modernes)
+
+Écran catalogue de Product Explorer, construit avec les listes modernes de Compose : `LazyColumn`
+et `LazyRow`. C'est désormais cet écran qui s'affiche au lancement de l'application ; les écrans du
+TP4 et du TP5 restent dans le code mais ne sont plus appelés directement.
+
+Chaque produit possède désormais un identifiant (`id`), utilisé comme clé stable dans la liste.
+L'écran assemble, dans une seule `LazyColumn` : un titre, une courte description, une ligne
+horizontale de catégories (`CategoryRow`, avec `LazyRow`, réutilisant `CategoryChip` du TP5), puis
+la liste verticale des produits, chacun affiché par une carte réutilisable (`ProductListItem`).
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductCatalogScreen       # LazyColumn : titre, description, catégories, produits
+    ├── ProductListItem            # Card : une carte produit réutilisable
+    ├── CategoryRow                # LazyRow : liste horizontale de catégories
+    ├── ProductUi                  # + champ id
+    └── sampleProducts()           # catalogue local de 4 produits
+```
+
+### Previews
+
+`ProductCatalogScreenPreview` montre le catalogue complet avec les 4 produits de `sampleProducts()`.
+
+### Aperçu
+
+<p align="center">
+  <img src="capture/CatalogueProduits.png" alt="Catalogue de produits Product Explorer" width="300">
+</p>
+
+L'écran contient bien les quatre éléments demandés : un titre de catalogue, une ligne horizontale
+de catégories, une liste verticale de produits, et une carte réutilisable pour chaque produit.
