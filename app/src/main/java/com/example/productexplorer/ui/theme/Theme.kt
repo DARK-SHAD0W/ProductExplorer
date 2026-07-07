@@ -2,11 +2,14 @@ package com.example.productexplorer.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF006C4C),
@@ -28,6 +31,13 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Color(0xFFE0E4DF)
 )
 
+private val ProductShapes = Shapes(
+    small = RoundedCornerShape(8.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(32.dp)
+)
+
 @Composable
 fun ProductExplorerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -42,6 +52,7 @@ fun ProductExplorerTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = ProductShapes,
         content = content
     )
 }
