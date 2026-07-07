@@ -70,6 +70,8 @@ fun ProductHomeScreen(
             onClick = onFeaturedProductClick
         )
         Spacer(modifier = Modifier.height(24.dp))
+        CategoriesSection()
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -167,6 +169,44 @@ fun ProductQuickInfoRow(
             text = "$stock en stock",
             modifier = Modifier.weight(1f)
         )
+    }
+}
+
+@Composable
+fun CategoryChip(
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium,
+        tonalElevation = 2.dp
+    ) {
+        Text(
+            text = label,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+fun CategoriesSection(
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = "Catégories",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Row {
+            CategoryChip(label = "Smartphones")
+            Spacer(modifier = Modifier.weight(1f))
+            CategoryChip(label = "Audio")
+            Spacer(modifier = Modifier.weight(1f))
+            CategoryChip(label = "Maison")
+        }
     }
 }
 
