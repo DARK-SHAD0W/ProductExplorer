@@ -64,6 +64,11 @@ fun ProductHomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
         SearchPreviewBar()
         Spacer(modifier = Modifier.height(24.dp))
+        FeaturedProductSection(
+            product = featuredProduct,
+            onClick = onFeaturedProductClick
+        )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -97,6 +102,41 @@ fun SearchPreviewBar(
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.bodyMedium
         )
+    }
+}
+
+@Composable
+fun FeaturedProductSection(
+    product: ProductUi,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        tonalElevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Produit mis en avant",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = product.title,
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = product.brand,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(onClick = onClick) {
+                Text(text = "Voir le produit")
+            }
+        }
     }
 }
 
