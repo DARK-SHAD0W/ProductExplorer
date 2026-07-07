@@ -75,6 +75,13 @@ fun ProductCatalogScreen(
         }
 
         item {
+            Text(
+                text = "Explorez une sélection de produits disponibles localement.",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        item {
             CategoryRow(categories = sampleCategories())
         }
 
