@@ -1,27 +1,22 @@
 # Product Explorer
 
-Application Android Jetpack Compose développée dans le cadre du TP4 « Écran de détail produit »
-(Bloc 2 – Compose UI). Elle affichera à terme un catalogue produit ; pour l'instant, elle contient
-un écran de détail produit unique, construit avec les composants fondamentaux de Compose : `Text`,
-`Button`, `Icon`, `Image`, `Card` et `TextField`.
+Application Android Jetpack Compose développée dans le cadre du Bloc 2 – Compose UI. Elle
+affichera à terme un catalogue produit complet ; pour l'instant, elle contient un écran de détail
+produit (TP4) et un écran d'accueil (TP5), tous deux construits avec Jetpack Compose.
 
-## Écran de détail produit
+---
+
+## TP4 – Écran de détail produit
+
+Écran de détail produit construit avec les composants fondamentaux de Compose : `Text`, `Button`,
+`Icon`, `Image`, `Card` et `TextField`.
 
 L'écran assemble plusieurs composables réutilisables, chacun responsable d'une seule information :
 une image produit, un en-tête (nom, marque, catégorie), une carte prix/remise, une note avec une
 icône étoile, une carte de disponibilité (stock, livraison), une description, un champ garantie en
 lecture seule et un bouton d'action.
 
-## Aperçu
-
-| Produit disponible | Produit indisponible |
-|---|---|
-| ![Smartphone Toto X, en stock](capture/SmartphoneToto.png) | ![Casque Audio Pulse, rupture de stock](capture/CasqueAudio.png) |
-
-Les mêmes composables affichent ici deux produits totalement différents (nom, catégorie, prix,
-stock, description), ce qui montre qu'ils sont bien paramétrés plutôt que figés sur un seul produit.
-
-## Structure du projet
+### Structure du projet
 
 ```
 app/src/main/java/com/example/productexplorer/
@@ -41,8 +36,58 @@ app/src/main/java/com/example/productexplorer/
     └── sampleProductOutOfStock()  # produit en rupture de stock (preview)
 ```
 
-## Previews
+### Previews
 
 Deux `@Preview` sont disponibles dans `MainActivity.kt`, montrant chacune un produit différent :
 `ProductDetailScreenPreview` (en stock) et `ProductDetailScreenOutOfStockPreview` (rupture de
-stock) — ce sont les deux captures ci-dessus.
+stock).
+
+### Aperçu
+
+| Produit disponible | Produit indisponible |
+|---|---|
+| ![Smartphone Toto X, en stock](capture/SmartphoneToto.png) | ![Casque Audio Pulse, rupture de stock](capture/CasqueAudio.png) |
+
+Les mêmes composables affichent ici deux produits totalement différents (nom, catégorie, prix,
+stock, description), ce qui montre qu'ils sont bien paramétrés plutôt que figés sur un seul produit.
+
+---
+
+## TP5 – Écran d'accueil (Layouts Compose)
+
+Écran d'accueil de Product Explorer, construit avec les principaux layouts de Compose : `Column`,
+`Row`, `Box`, `Spacer` et `Surface`. C'est désormais cet écran qui s'affiche au lancement de
+l'application ; l'écran de détail du TP4 reste dans le code mais n'est plus appelé directement.
+
+L'écran assemble : un en-tête (`HomeHeader`), une zone de recherche visuelle (`SearchPreviewBar`),
+une carte de produit mis en avant avec une ligne prix/note/stock et un bouton d'action
+(`FeaturedProductSection` + `ProductQuickInfoRow`), une section de catégories (`CategoriesSection`
++ `CategoryChip`), et un bloc « Offre du jour » avec un badge superposé grâce à `Box`
+(`DailyOfferBox`).
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductHomeScreen          # assemble toutes les sections de l'accueil
+    ├── HomeHeader                 # titre + sous-titre
+    ├── SearchPreviewBar           # Surface : barre de recherche visuelle
+    ├── FeaturedProductSection     # Surface + Column + Button : produit mis en avant
+    ├── ProductQuickInfoRow        # Row : prix, note, stock (weight égal)
+    ├── CategoryChip               # Surface : une catégorie
+    ├── CategoriesSection          # Column + Row : liste de catégories
+    └── DailyOfferBox              # Box + 2 Surface : bloc + badge superposé
+```
+
+### Previews
+
+`ProductHomeScreenPreview` montre l'écran d'accueil complet avec le produit `sampleProduct()`.
+
+### Aperçu
+
+![Écran d'accueil Product Explorer](capture/SearchProduits.png)
+
+L'écran contient bien les six éléments demandés : en-tête, zone de recherche, produit mis en avant,
+catégories, section « Offre du jour », et un bouton vers le produit mis en avant (sans navigation
+réelle pour l'instant).
