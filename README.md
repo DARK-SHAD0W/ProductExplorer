@@ -86,7 +86,11 @@ app/src/main/java/com/example/productexplorer/
 
 ### Aperçu
 
+<div align="center">
+
 ![Écran d'accueil Product Explorer](capture/SearchProduits.png)
+
+</div>
 
 L'écran contient bien les six éléments demandés : en-tête, zone de recherche, produit mis en avant,
 catégories, section « Offre du jour », et un bouton vers le produit mis en avant (sans navigation
