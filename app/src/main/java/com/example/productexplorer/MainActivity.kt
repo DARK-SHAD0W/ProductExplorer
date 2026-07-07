@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.productexplorer.ui.theme.ProductExplorerTheme
 
@@ -55,6 +56,17 @@ fun ProductDetailScreen(
         Button(onClick = onAddToCartClick) {
             Text(text = "Ajouter au panier")
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductDetailScreenPreview() {
+    ProductExplorerTheme {
+        ProductDetailScreen(
+            product = sampleProduct(),
+            onAddToCartClick = {}
+        )
     }
 }
 
