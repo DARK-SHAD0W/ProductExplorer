@@ -540,6 +540,17 @@ fun AddToCartButton(
 
 @Preview(showBackground = true)
 @Composable
+fun ProductCatalogScreenPreview() {
+    ProductExplorerTheme {
+        ProductCatalogScreen(
+            products = sampleProducts(),
+            onProductClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 fun ProductHomeScreenPreview() {
     ProductExplorerTheme {
         ProductHomeScreen(
