@@ -12,8 +12,6 @@ une image produit, un en-tête (nom, marque, catégorie), une carte prix/remise,
 icône étoile, une carte de disponibilité (stock, livraison), une description, un champ garantie en
 lecture seule et un bouton d'action.
 
-Les données du produit sont locales (classe `ProductUi`), sans appel réseau à ce stade du cours.
-
 ## Aperçu
 
 | Produit disponible | Produit indisponible |
