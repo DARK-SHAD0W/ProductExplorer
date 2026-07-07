@@ -277,13 +277,14 @@ fun CategoryChip(
 ) {
     Surface(
         modifier = modifier,
-        shape = MaterialTheme.shapes.medium,
-        tonalElevation = 2.dp
+        shape = MaterialTheme.shapes.extraLarge,
+        color = MaterialTheme.colorScheme.secondary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
     ) {
         Text(
             text = label,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-            style = MaterialTheme.typography.bodyMedium
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
