@@ -95,6 +95,14 @@ fun ProductCatalogScreen(
         }
     }
 
+    fun toggleFavorite(productId: Int) {
+        favoriteProductIds = if (favoriteProductIds.contains(productId)) {
+            favoriteProductIds - productId
+        } else {
+            favoriteProductIds + productId
+        }
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
