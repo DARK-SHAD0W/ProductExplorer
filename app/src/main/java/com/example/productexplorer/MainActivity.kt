@@ -88,6 +88,19 @@ fun ProductCatalogScreen(
         }
 
         item {
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { newValue ->
+                    searchQuery = newValue
+                },
+                label = {
+                    Text(text = "Rechercher un produit")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item {
             Text(
                 text = "Explorez une sélection de produits disponibles localement.",
                 style = MaterialTheme.typography.bodyMedium
