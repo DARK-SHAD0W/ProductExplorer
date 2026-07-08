@@ -170,3 +170,47 @@ seul le thème change, pour vérifier la lisibilité dans les deux modes.
 
 Le même écran dans les deux thèmes : les couleurs, la typographie et les formes s'adaptent grâce
 au thème, sans modification des composants.
+
+---
+
+## TP8 – Rendre le catalogue interactif (State Management)
+
+Le catalogue devient interactif grâce aux premiers outils d'état de Compose : `remember`,
+`mutableStateOf` et `rememberSaveable`. Toujours aucun nouvel écran : `ProductCatalogScreen` et
+`ProductListItem` gagnent un état local, tout reste local (pas d'appel réseau, pas de base de
+données).
+
+L'utilisateur peut désormais : saisir un texte de recherche (filtré sur le titre, la marque et la
+catégorie), n'afficher que les produits en stock, marquer des produits comme favoris, et voir le
+nombre de résultats se mettre à jour automatiquement.
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductCatalogScreen
+    │   ├── searchQuery          # rememberSaveable : texte de recherche
+    │   ├── showOnlyInStock      # rememberSaveable : filtre stock
+    │   ├── favoriteProductIds   # rememberSaveable : liste des id favoris
+    │   ├── filteredProducts     # remember(products, searchQuery, showOnlyInStock)
+    │   └── toggleFavorite()     # ajoute/retire un id de favoriteProductIds
+    └── ProductListItem          # + isFavorite, onFavoriteClick (bouton favori)
+```
+
+### Previews
+
+Les previews existantes (`ProductCatalogScreenPreview`, `ProductCatalogScreenLightPreview`,
+`ProductCatalogScreenDarkPreview`) continuent de fonctionner sans changement : la signature
+publique de `ProductCatalogScreen` n'a pas changé, seul son comportement interne est devenu
+interactif.
+
+### Aperçu
+
+<p align="center">
+  <img src="capture/CatalogueInteractif.png" alt="Catalogue interactif : recherche, filtre et favoris" width="300">
+</p>
+
+La recherche, le filtre « en stock uniquement » et les favoris sont bien pilotés par l'état :
+aucune donnée n'est modifiée manuellement, tout passe par `searchQuery`, `showOnlyInStock` et
+`favoriteProductIds`, et Compose recompose l'écran automatiquement quand l'un de ces états change.
