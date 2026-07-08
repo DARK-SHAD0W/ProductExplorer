@@ -120,6 +120,22 @@ fun ProductCatalogScreen(
         }
 
         item {
+            Button(
+                onClick = {
+                    showOnlyInStock = !showOnlyInStock
+                }
+            ) {
+                Text(
+                    text = if (showOnlyInStock) {
+                        "Afficher tous les produits"
+                    } else {
+                        "Afficher uniquement les produits en stock"
+                    }
+                )
+            }
+        }
+
+        item {
             Text(
                 text = "Explorez une sélection de produits disponibles localement.",
                 style = MaterialTheme.typography.bodyMedium
