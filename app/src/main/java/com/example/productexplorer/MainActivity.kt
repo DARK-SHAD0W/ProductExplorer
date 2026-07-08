@@ -121,7 +121,7 @@ fun ProductCatalogScreen(
         }
 
         items(
-            items = products,
+            items = filteredProducts,
             key = { product -> product.id }
         ) { product ->
             ProductListItem(
