@@ -85,6 +85,17 @@ class ProductCatalogViewModel : ViewModel() {
     fun onToggleStockFilter() {
         showOnlyInStock = !showOnlyInStock
     }
+
+    var favoriteProductIds by mutableStateOf(listOf<Int>())
+        private set
+
+    fun onFavoriteClick(productId: Int) {
+        favoriteProductIds = if (favoriteProductIds.contains(productId)) {
+            favoriteProductIds - productId
+        } else {
+            favoriteProductIds + productId
+        }
+    }
 }
 
 @Composable
