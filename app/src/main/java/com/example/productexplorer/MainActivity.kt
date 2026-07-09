@@ -202,11 +202,9 @@ fun ProductCatalogScreen(
 
         item {
             CategoryRow(
-                categories = sampleCategories(),
+                categories = categories,
                 selectedCategory = selectedCategory,
-                onCategoryClick = { category ->
-                    selectedCategory = if (selectedCategory == category) null else category
-                }
+                onCategoryClick = onCategoryClick
             )
         }
 
