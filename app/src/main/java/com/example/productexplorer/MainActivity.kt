@@ -84,7 +84,11 @@ fun ProductCatalogScreen(
         mutableStateOf(listOf<Int>())
     }
 
-    val filteredProducts = remember(products, searchQuery, showOnlyInStock) {
+    var selectedCategory by rememberSaveable {
+        mutableStateOf<String?>(null)
+    }
+
+    val filteredProducts = remember(products, searchQuery, showOnlyInStock, selectedCategory) {
         products.filter { product ->
             val matchesSearch =
                 product.title.contains(searchQuery, ignoreCase = true) ||
@@ -94,7 +98,10 @@ fun ProductCatalogScreen(
             val matchesStock =
                 !showOnlyInStock || product.stock > 0
 
-            matchesSearch && matchesStock
+            val matchesCategory =
+                selectedCategory == null || product.category == selectedCategory
+
+            matchesSearch && matchesStock && matchesCategory
         }
     }
 
@@ -158,7 +165,13 @@ fun ProductCatalogScreen(
         }
 
         item {
-            CategoryRow(categories = sampleCategories())
+            CategoryRow(
+                categories = sampleCategories(),
+                selectedCategory = selectedCategory,
+                onCategoryClick = { category ->
+                    selectedCategory = if (selectedCategory == category) null else category
+                }
+            )
         }
 
         item {
