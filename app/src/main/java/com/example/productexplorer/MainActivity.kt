@@ -67,6 +67,30 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun ProductCatalogContainer(
+    products: List<ProductUi>,
+    categories: List<String>,
+    onProductClick: (ProductUi) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var searchQuery by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var showOnlyInStock by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    var favoriteProductIds by rememberSaveable {
+        mutableStateOf(listOf<Int>())
+    }
+
+    var selectedCategory by rememberSaveable {
+        mutableStateOf<String?>(null)
+    }
+}
+
+@Composable
 fun ProductCatalogScreen(
     products: List<ProductUi>,
     onProductClick: (ProductUi) -> Unit,
