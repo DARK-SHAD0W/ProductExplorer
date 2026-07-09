@@ -45,6 +45,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.productexplorer.ui.theme.EtoileJaune
 import com.example.productexplorer.ui.theme.ProductExplorerTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +79,15 @@ data class ProductCatalogUiState(
 
 class ProductCatalogViewModel : ViewModel() {
     private val allProducts: List<ProductUi> = sampleProducts()
-    val categories: List<String> = sampleCategories()
+    private val allCategories: List<String> = sampleCategories()
+
+    private val _uiState = MutableStateFlow(
+        ProductCatalogUiState(
+            products = allProducts,
+            categories = allCategories
+        )
+    )
+    val uiState: StateFlow<ProductCatalogUiState> = _uiState.asStateFlow()
 
     var searchQuery by mutableStateOf("")
         private set
