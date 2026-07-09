@@ -330,3 +330,54 @@ que le `ViewModel` : `ProductCatalogScreenLightPreview` (recherche vide, filtre 
 
 Toujours aucune nouvelle capture : le comportement observable ne change pas par rapport au TP8/TP9,
 seule l'organisation interne du code évolue.
+
+---
+
+## TP11 – Mise à jour dynamique avec StateFlow
+
+Encore un refactor pur, même comportement qu'au TP10. Le `ViewModel` exposait plusieurs propriétés
+séparées (`searchQuery`, `showOnlyInStock`, `favoriteProductIds`, `selectedCategory`,
+`filteredProducts`, `categories`) via `mutableStateOf` + `private set`. Elles sont maintenant
+regroupées dans un seul état observable : `ProductCatalogUiState`, exposé en `StateFlow` et
+collecté côté UI avec `collectAsState()`.
+
+`ProductCatalogUiState` (nouvelle `data class`) rassemble tout ce que l'écran doit afficher :
+`products` (déjà filtrée), `categories`, `searchQuery`, `showOnlyInStock`, `favoriteProductIds`, et
+`selectedCategory` (le filtre par catégorie ajouté après le TP8, intégré ici avec la même
+discipline que les autres champs).
+
+Dans `ProductCatalogViewModel`, `_uiState` (`MutableStateFlow`, privé) contient l'état courant ;
+`uiState` (`StateFlow`, public) l'expose en lecture seule. Chaque action
+(`onSearchQueryChange`, `onToggleStockFilter`, `onFavoriteClick`, `onCategoryClick`) utilise
+`_uiState.update { currentState -> currentState.copy(...) }` pour produire un nouvel état plutôt
+que de modifier des champs un par un. La logique de filtrage est isolée dans une fonction privée
+`filterProducts(searchQuery, showOnlyInStock, selectedCategory)`, appelée à chaque action qui peut
+changer la liste affichée.
+
+`ProductCatalogContainer` collecte l'état avec `val uiState by viewModel.uiState.collectAsState()`
+et transmet ses champs à `ProductCatalogScreen`, qui reste inchangé depuis le TP9 : il ne sait
+toujours pas d'où vient son état (`rememberSaveable`, `ViewModel` à propriétés séparées, ou
+`StateFlow`, peu importe).
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductCatalogUiState     # data class : tout l'etat de l'ecran catalogue
+    ├── ProductCatalogViewModel   # _uiState (MutableStateFlow) / uiState (StateFlow)
+    │                              # filterProducts() prive + actions via _uiState.update { }
+    ├── ProductCatalogContainer   # collectAsState() -> ProductCatalogScreen
+    └── ProductCatalogScreen      # stateless, inchange depuis le TP9
+```
+
+### Previews
+
+Inchangées depuis le TP10, comme le suggère le sujet : `ProductCatalogScreenLightPreview` et
+`ProductCatalogScreenDarkPreview` continuent d'appeler `ProductCatalogScreen` avec des valeurs
+codées en dur, sans dépendre du `ViewModel` ni de `StateFlow`.
+
+### Aperçu
+
+Toujours aucune nouvelle capture : le comportement reste identique au TP8/TP9/TP10, seule la façon
+dont l'état est exposé change.
