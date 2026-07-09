@@ -113,6 +113,29 @@ fun ProductCatalogContainer(
             favoriteProductIds + productId
         }
     }
+
+    ProductCatalogScreen(
+        products = filteredProducts,
+        categories = categories,
+        searchQuery = searchQuery,
+        onSearchQueryChange = { newValue ->
+            searchQuery = newValue
+        },
+        showOnlyInStock = showOnlyInStock,
+        onToggleStockFilter = {
+            showOnlyInStock = !showOnlyInStock
+        },
+        selectedCategory = selectedCategory,
+        onCategoryClick = { category ->
+            selectedCategory = if (selectedCategory == category) null else category
+        },
+        favoriteProductIds = favoriteProductIds,
+        onFavoriteClick = { productId ->
+            toggleFavorite(productId)
+        },
+        onProductClick = onProductClick,
+        modifier = modifier
+    )
 }
 
 @Composable
