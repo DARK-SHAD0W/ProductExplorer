@@ -96,6 +96,13 @@ class ProductCatalogViewModel : ViewModel() {
             favoriteProductIds + productId
         }
     }
+
+    var selectedCategory by mutableStateOf<String?>(null)
+        private set
+
+    fun onCategoryClick(category: String) {
+        selectedCategory = if (selectedCategory == category) null else category
+    }
 }
 
 @Composable
