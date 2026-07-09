@@ -171,9 +171,7 @@ fun ProductCatalogScreen(
         item {
             OutlinedTextField(
                 value = searchQuery,
-                onValueChange = { newValue ->
-                    searchQuery = newValue
-                },
+                onValueChange = onSearchQueryChange,
                 label = {
                     Text(text = "Rechercher un produit")
                 },
