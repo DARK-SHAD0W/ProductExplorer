@@ -121,7 +121,9 @@ app/src/main/java/com/example/productexplorer/
 
 ### Previews
 
-`ProductCatalogScreenPreview` montre le catalogue complet avec les 4 produits de `sampleProducts()`.
+À ce stade du TP6, `ProductCatalogScreenPreview` montrait le catalogue complet avec les 4 produits
+de `sampleProducts()`. Cette preview a depuis été remplacée (voir TP9) par des previews du
+conteneur, une fois `ProductCatalogScreen` devenu stateless.
 
 ### Aperçu
 
@@ -158,8 +160,10 @@ app/src/main/java/com/example/productexplorer/
 
 ### Previews
 
-`ProductCatalogScreenLightPreview` et `ProductCatalogScreenDarkPreview` affichent le même écran,
-seul le thème change, pour vérifier la lisibilité dans les deux modes.
+À ce stade du TP7, `ProductCatalogScreenLightPreview` et `ProductCatalogScreenDarkPreview`
+affichaient le même écran, seul le thème changeant, pour vérifier la lisibilité dans les deux
+modes. Ces previews ont depuis été renommées en `ProductCatalogContainerLightPreview` /
+`ProductCatalogContainerDarkPreview` lors du refactor State Hoisting du TP9.
 
 ### Aperçu
 
