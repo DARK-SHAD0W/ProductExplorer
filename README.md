@@ -274,13 +274,59 @@ app/src/main/java/com/example/productexplorer/
 
 ### Previews
 
-`ProductCatalogContainerLightPreview` et `ProductCatalogContainerDarkPreview` testent l'écran
-complet avec son état local (via le conteneur). `ProductCatalogScreenStatelessPreview` montre que
-l'écran stateless peut être prévisualisé seul, en lui donnant directement toutes les valeurs à la
-main. Les previews `ProductDetailScreenPreview`, `ProductDetailScreenOutOfStockPreview` et
-`ProductHomeScreenPreview` des TP précédents restent inchangées.
+À ce stade du TP9, `ProductCatalogContainerLightPreview` et `ProductCatalogContainerDarkPreview`
+testaient l'écran complet avec son état local (via le conteneur), et
+`ProductCatalogScreenStatelessPreview` montrait que l'écran stateless pouvait être prévisualisé
+seul. Ces previews ont depuis été remplacées (voir TP10) par des previews du composable stateless
+uniquement, une fois l'état déplacé dans un `ViewModel`. Les previews `ProductDetailScreenPreview`,
+`ProductDetailScreenOutOfStockPreview` et `ProductHomeScreenPreview` des TP précédents restent
+inchangées.
 
 ### Aperçu
 
 Aucune nouvelle capture pour ce TP : c'est un refactor interne, le comportement reste identique à
 celui du TP8, donc les cinq captures ci-dessus restent parfaitement valables.
+
+---
+
+## TP10 – Gestion d'un écran avec ViewModel
+
+Encore un refactor pur : même comportement qu'au TP9, mais l'état de l'écran catalogue déménage du
+composable `ProductCatalogContainer` vers un vrai `ViewModel` (`ProductCatalogViewModel`). Le
+`ViewModel` a un avantage que `rememberSaveable` seul n'a pas complètement : il survit à la
+recréation de l'écran (rotation) sans dépendre du mécanisme de sauvegable Compose.
+
+`ProductCatalogViewModel` (nouveau, hérite de `ViewModel`) possède maintenant tout : les données
+locales (`allProducts`, `categories`), les quatre états (`searchQuery`, `showOnlyInStock`,
+`favoriteProductIds`, `selectedCategory`, tous en `mutableStateOf` avec `private set` pour qu'ils
+ne soient modifiables que via une fonction dédiée), les actions (`onSearchQueryChange`,
+`onToggleStockFilter`, `onFavoriteClick`, `onCategoryClick`) et la liste calculée
+`filteredProducts`.
+
+`ProductCatalogContainer` devient une simple passerelle : il récupère le `ViewModel` avec
+`viewModel()` et transmet ses valeurs à `ProductCatalogScreen`, qui reste inchangé depuis le TP9
+(déjà stateless, il ne sait pas d'où vient l'état qu'on lui donne).
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductCatalogViewModel   # ViewModel : donnees, etat (mutableStateOf + private set),
+    │                              # actions (onXxx), filteredProducts calculee
+    ├── ProductCatalogContainer   # passerelle : viewModel() -> ProductCatalogScreen
+    └── ProductCatalogScreen      # stateless, inchange depuis le TP9
+```
+
+### Previews
+
+Comme le suggère le sujet, les previews prévisualisent directement le composable stateless plutôt
+que le `ViewModel` : `ProductCatalogScreenLightPreview` (recherche vide, filtre désactivé) et
+`ProductCatalogScreenDarkPreview` (recherche « audio », filtre stock activé) appellent
+`ProductCatalogScreen` avec des valeurs codées en dur, sans passer par `ProductCatalogContainer` ni
+`ProductCatalogViewModel`.
+
+### Aperçu
+
+Toujours aucune nouvelle capture : le comportement observable ne change pas par rapport au TP8/TP9,
+seule l'organisation interne du code évolue.
