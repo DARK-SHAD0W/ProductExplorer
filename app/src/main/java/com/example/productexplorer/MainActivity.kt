@@ -88,6 +88,23 @@ fun ProductCatalogContainer(
     var selectedCategory by rememberSaveable {
         mutableStateOf<String?>(null)
     }
+
+    val filteredProducts = remember(products, searchQuery, showOnlyInStock, selectedCategory) {
+        products.filter { product ->
+            val matchesSearch =
+                product.title.contains(searchQuery, ignoreCase = true) ||
+                    product.brand.contains(searchQuery, ignoreCase = true) ||
+                    product.category.contains(searchQuery, ignoreCase = true)
+
+            val matchesStock =
+                !showOnlyInStock || product.stock > 0
+
+            val matchesCategory =
+                selectedCategory == null || product.category == selectedCategory
+
+            matchesSearch && matchesStock && matchesCategory
+        }
+    }
 }
 
 @Composable
