@@ -103,6 +103,22 @@ class ProductCatalogViewModel : ViewModel() {
     fun onCategoryClick(category: String) {
         selectedCategory = if (selectedCategory == category) null else category
     }
+
+    val filteredProducts: List<ProductUi>
+        get() = allProducts.filter { product ->
+            val matchesSearch =
+                product.title.contains(searchQuery, ignoreCase = true) ||
+                    product.brand.contains(searchQuery, ignoreCase = true) ||
+                    product.category.contains(searchQuery, ignoreCase = true)
+
+            val matchesStock =
+                !showOnlyInStock || product.stock > 0
+
+            val matchesCategory =
+                selectedCategory == null || product.category == selectedCategory
+
+            matchesSearch && matchesStock && matchesCategory
+        }
 }
 
 @Composable
