@@ -386,12 +386,19 @@ fun ProductQuickInfoRow(
 @Composable
 fun CategoryChip(
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    onClick: () -> Unit = {}
 ) {
     Surface(
+        onClick = onClick,
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.secondary,
+        color = if (selected) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.secondary
+        },
         contentColor = MaterialTheme.colorScheme.onPrimary
     ) {
         Text(
@@ -828,14 +835,20 @@ fun sampleCategories(): List<String> {
 @Composable
 fun CategoryRow(
     categories: List<String>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selectedCategory: String? = null,
+    onCategoryClick: (String) -> Unit = {}
 ) {
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(categories) { category ->
-            CategoryChip(label = category)
+            CategoryChip(
+                label = category,
+                selected = category == selectedCategory,
+                onClick = { onCategoryClick(category) }
+            )
         }
     }
 }
