@@ -209,10 +209,11 @@ app/src/main/java/com/example/productexplorer/
 
 ### Previews
 
-Les previews existantes (`ProductCatalogScreenPreview`, `ProductCatalogScreenLightPreview`,
-`ProductCatalogScreenDarkPreview`) continuent de fonctionner sans changement : la signature
-publique de `ProductCatalogScreen` n'a pas changé, seul son comportement interne est devenu
-interactif.
+À ce stade du TP8, les previews existantes du catalogue continuaient de fonctionner sans
+changement, car la signature publique de `ProductCatalogScreen` n'avait pas encore changé — seul
+son comportement interne était devenu interactif. Ça n'est plus le cas après le TP9 (voir plus
+bas) : `ProductCatalogScreen` devient stateless et sa signature change, donc ces previews ont dû
+être remplacées par des previews du conteneur.
 
 ### Aperçu
 
@@ -234,3 +235,48 @@ Et deux captures de plus pour les deux ajouts (étoile favori, filtre par catég
   <img src="capture/CatalogueFavori.png" alt="Un produit marqué favori, etoile jaune en haut a droite" width="300">
   <img src="capture/CatalogueCategorie.png" alt="Catalogue filtré par categorie apres un clic sur une puce" width="300">
 </p>
+
+---
+
+## TP9 – State Hoisting (composants stateful / stateless)
+
+Refactor pur : aucun nouveau comportement visible, seulement une meilleure organisation du code.
+`ProductCatalogScreen` faisait trop de choses (mémoriser l'état, filtrer, afficher). Le TP sépare
+désormais deux responsabilités : un composable **stateful** qui possède l'état, et un composable
+**stateless** qui se contente d'afficher des valeurs et de signaler des événements. Le principe :
+les données descendent, les événements remontent.
+
+`ProductCatalogContainer` (nouveau) possède tout l'état de l'écran : `searchQuery`,
+`showOnlyInStock`, `favoriteProductIds`, et `selectedCategory` (le filtre par catégorie ajouté
+après le TP8). Il calcule `filteredProducts` et définit `toggleFavorite()`, puis appelle
+`ProductCatalogScreen` en lui transmettant l'état actuel et les callbacks de modification.
+
+`ProductCatalogScreen` ne contient plus aucun `remember`, `mutableStateOf` ni `rememberSaveable` :
+il reçoit tout en paramètres (`products` déjà filtrée, `searchQuery`, `onSearchQueryChange`,
+`showOnlyInStock`, `onToggleStockFilter`, `selectedCategory`, `onCategoryClick`,
+`favoriteProductIds`, `onFavoriteClick`). `ProductListItem` restait déjà stateless depuis le TP8,
+rien à y changer.
+
+### Structure du projet
+
+```
+app/src/main/java/com/example/productexplorer/
+└── MainActivity.kt
+    ├── ProductCatalogContainer   # stateful : possede l'etat, calcule filteredProducts,
+    │                              # definit toggleFavorite(), appelle ProductCatalogScreen
+    └── ProductCatalogScreen      # stateless : LazyColumn, affiche products et
+                                   # declenche les callbacks recus en parametre
+```
+
+### Previews
+
+`ProductCatalogContainerLightPreview` et `ProductCatalogContainerDarkPreview` testent l'écran
+complet avec son état local (via le conteneur). `ProductCatalogScreenStatelessPreview` montre que
+l'écran stateless peut être prévisualisé seul, en lui donnant directement toutes les valeurs à la
+main. Les previews `ProductDetailScreenPreview`, `ProductDetailScreenOutOfStockPreview` et
+`ProductHomeScreenPreview` des TP précédents restent inchangées.
+
+### Aperçu
+
+Aucune nouvelle capture pour ce TP : c'est un refactor interne, le comportement reste identique à
+celui du TP8, donc les cinq captures ci-dessus restent parfaitement valables.
