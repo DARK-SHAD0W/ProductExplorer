@@ -112,9 +112,6 @@ class ProductCatalogViewModel : ViewModel() {
         }
     }
 
-    var searchQuery by mutableStateOf("")
-        private set
-
     fun onSearchQueryChange(newValue: String) {
         _uiState.update { currentState ->
             currentState.copy(
@@ -127,9 +124,6 @@ class ProductCatalogViewModel : ViewModel() {
             )
         }
     }
-
-    var showOnlyInStock by mutableStateOf(false)
-        private set
 
     fun onToggleStockFilter() {
         _uiState.update { currentState ->
@@ -146,9 +140,6 @@ class ProductCatalogViewModel : ViewModel() {
         }
     }
 
-    var favoriteProductIds by mutableStateOf(listOf<Int>())
-        private set
-
     fun onFavoriteClick(productId: Int) {
         _uiState.update { currentState ->
             val newFavoriteIds = if (currentState.favoriteProductIds.contains(productId)) {
@@ -162,9 +153,6 @@ class ProductCatalogViewModel : ViewModel() {
             )
         }
     }
-
-    var selectedCategory by mutableStateOf<String?>(null)
-        private set
 
     fun onCategoryClick(category: String) {
         _uiState.update { currentState ->
@@ -182,21 +170,6 @@ class ProductCatalogViewModel : ViewModel() {
         }
     }
 
-    val filteredProducts: List<ProductUi>
-        get() = allProducts.filter { product ->
-            val matchesSearch =
-                product.title.contains(searchQuery, ignoreCase = true) ||
-                    product.brand.contains(searchQuery, ignoreCase = true) ||
-                    product.category.contains(searchQuery, ignoreCase = true)
-
-            val matchesStock =
-                !showOnlyInStock || product.stock > 0
-
-            val matchesCategory =
-                selectedCategory == null || product.category == selectedCategory
-
-            matchesSearch && matchesStock && matchesCategory
-        }
 }
 
 @Composable
