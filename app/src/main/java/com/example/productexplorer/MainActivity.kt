@@ -166,7 +166,19 @@ class ProductCatalogViewModel : ViewModel() {
         private set
 
     fun onCategoryClick(category: String) {
-        selectedCategory = if (selectedCategory == category) null else category
+        _uiState.update { currentState ->
+            val newSelectedCategory =
+                if (currentState.selectedCategory == category) null else category
+
+            currentState.copy(
+                selectedCategory = newSelectedCategory,
+                products = filterProducts(
+                    searchQuery = currentState.searchQuery,
+                    showOnlyInStock = currentState.showOnlyInStock,
+                    selectedCategory = newSelectedCategory
+                )
+            )
+        }
     }
 
     val filteredProducts: List<ProductUi>
