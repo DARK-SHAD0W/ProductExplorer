@@ -181,8 +181,14 @@ Le catalogue devient interactif grâce aux premiers outils d'état de Compose : 
 données).
 
 L'utilisateur peut désormais : saisir un texte de recherche (filtré sur le titre, la marque et la
-catégorie), n'afficher que les produits en stock, marquer des produits comme favoris, et voir le
-nombre de résultats se mettre à jour automatiquement.
+catégorie), n'afficher que les produits en stock, filtrer en cliquant sur une catégorie, marquer
+des produits comme favoris (bouton ou étoile), et voir le nombre de résultats se mettre à jour
+automatiquement.
+
+Deux ajouts en plus du sujet du TP : une étoile en haut à droite de chaque carte (jaune et pleine
+si le produit est favori, en contour sinon) donne un accès rapide au favori sans passer par le
+bouton texte ; et cliquer sur une puce de catégorie filtre le catalogue sur cette catégorie
+(recliquer dessus retire le filtre).
 
 ### Structure du projet
 
@@ -193,9 +199,12 @@ app/src/main/java/com/example/productexplorer/
     │   ├── searchQuery          # rememberSaveable : texte de recherche
     │   ├── showOnlyInStock      # rememberSaveable : filtre stock
     │   ├── favoriteProductIds   # rememberSaveable : liste des id favoris
-    │   ├── filteredProducts     # remember(products, searchQuery, showOnlyInStock)
+    │   ├── selectedCategory     # rememberSaveable : categorie selectionnee (ou null)
+    │   ├── filteredProducts     # remember(products, searchQuery, showOnlyInStock, selectedCategory)
     │   └── toggleFavorite()     # ajoute/retire un id de favoriteProductIds
-    └── ProductListItem          # + isFavorite, onFavoriteClick (bouton favori)
+    ├── ProductListItem          # + isFavorite, onFavoriteClick (bouton + etoile Box/IconButton)
+    ├── CategoryChip             # + selected, onClick (Surface cliquable, couleur si selectionnee)
+    └── CategoryRow              # + selectedCategory, onCategoryClick
 ```
 
 ### Previews
@@ -218,3 +227,10 @@ aucune donnée n'est modifiée manuellement, tout passe par `searchQuery`, `show
 `favoriteProductIds`, et Compose recompose l'écran automatiquement quand l'un de ces états change.
 Sur la deuxième capture, le filtre « en stock uniquement » est actif : le catalogue passe de 4 à 3
 produits, puisque le Casque Audio Pulse est en rupture de stock.
+
+Et deux captures de plus pour les deux ajouts (étoile favori, filtre par catégorie) :
+
+<p align="center">
+  <img src="capture/CatalogueFavori.png" alt="Un produit marqué favori, etoile jaune en haut a droite" width="300">
+  <img src="capture/CatalogueCategorie.png" alt="Catalogue filtré par categorie apres un clic sur une puce" width="300">
+</p>
