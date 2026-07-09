@@ -207,10 +207,14 @@ interactif.
 
 ### Aperçu
 
-<p align="center">
-  <img src="capture/CatalogueInteractif.png" alt="Catalogue interactif : recherche, filtre et favoris" width="300">
-</p>
+Trois captures pour montrer l'écran dans trois états différents.
+
+| Aucun filtre | Filtre « en stock » actif | Recherche appliquée |
+|---|---|---|
+| ![Catalogue sans filtre, 4 produits](capture/CatalogueSansFiltre.png) | ![Catalogue filtré sur le stock, 3 produits](capture/CatalogueEnStock.png) | ![Catalogue avec une recherche](capture/CatalogueRecherche.png) |
 
 La recherche, le filtre « en stock uniquement » et les favoris sont bien pilotés par l'état :
 aucune donnée n'est modifiée manuellement, tout passe par `searchQuery`, `showOnlyInStock` et
 `favoriteProductIds`, et Compose recompose l'écran automatiquement quand l'un de ces états change.
+Sur la deuxième capture, le filtre « en stock uniquement » est actif : le catalogue passe de 4 à 3
+produits, puisque le Casque Audio Pulse est en rupture de stock.
